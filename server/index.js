@@ -4,6 +4,8 @@ const WebSocketClient = require('./ws-client');
 
 const ws = new WebSocketClient();
 
+let DATA = []
+
 ws.open(process.env.SOCKET || 'ws://localhost:8001')
 ws.onopen = function(){
 	console.log("WebSocketClient connected");
@@ -11,12 +13,12 @@ ws.onopen = function(){
 
 ws.onmessage = function(data,flags,number){
     data = JSON.parse(data.toString()) || data
+    DATA = data
 }
 
 const sendMessage = (obj) => {
     ws.send(Buffer.from(JSON.stringify(obj)))
 }
-
 
 const init = async () => {
 
@@ -28,15 +30,15 @@ const init = async () => {
     server.route({
         method: 'GET',
         path: '/',
-        handler: (request, h) => {
-            return 'Hello World!';
+        handler: () => {
+            return DATA;
         }
     });
 
     server.route({
         method: 'POST',
         path: '/',
-        handler: (request, h) => {
+        handler: (request) => {
             sendMessage({
                 event: 'add',
                 data: request.payload
@@ -64,7 +66,11 @@ const init = async () => {
         method: 'DELETE',
         path: '/{id}',
         handler: (request, h) => {
-            return 'Hello World!';
+            sendMessage({
+                event: 'remove',
+                data: request.params.id
+            })
+            return 'Removed!';
         }
     })
 
