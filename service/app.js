@@ -1,30 +1,12 @@
 import Fastify from 'fastify';
-import { getSteamMiniProfile } from './src/steamprofile.js'
-import { getScore } from './src/score.js'
+import { miniprofileController } from './controllers/miniprofile.controller.js'
+import { getScoreController } from './controllers/score.controller.js'
 
 const server = Fastify({logger: true})
 
-server.get('/miniprofile', async (req, res) => {
-    const link = req.query?.link
-    if(!link) return { error: 'Link is not provided in request query' }
-    try{
-        const steamLink = await getSteamMiniProfile(link)
-        return { link: steamLink }
-    } catch(error) {
-        return { error }
-    }
-})
+server.get('/miniprofile', miniprofileController)
 
-server.get('/score', async (req, res) => {
-    const link = req.query?.link
-    if(!link) return { error: 'Link is not provided in request query' }
-    try{
-        const score = await getScore(link)
-        return { score }
-    } catch(error) {
-        return { error }
-    }
-})
+server.get('/score', getScoreController)
 
 const start = async () => {
     try {
