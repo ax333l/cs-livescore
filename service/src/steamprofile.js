@@ -1,10 +1,17 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+import axios from 'axios'
+import cheerio from 'cheerio'
 
-const getSteamMiniProfile = (url) => {
+/**
+ * This function returns steam miniprofile URL
+ * by default steam profile URL
+ * 
+ * @param {string} url - Steam profile URL
+ * @returns {Promise} Promise resolved with steam miniprofile URL
+ */
+export function getSteamMiniProfile(url){
     return new Promise(async (resolve, reject) => {
         if(!/steamcommunity.com/.test(url)) {
-            reject('Link error')
+            reject('Wrong link')
         }
         axios.get(url).then((response) => {
             const $ = cheerio.load(response.data)
@@ -13,8 +20,6 @@ const getSteamMiniProfile = (url) => {
                     resolve(element.attribs['data-miniprofile'])
                 }
             })
-        })
+        }).catch(err => reject(err))
     })
 }
-
-module.exports = getSteamMiniProfile;
