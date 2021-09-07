@@ -14,13 +14,18 @@ function App() {
       setMiniProfileLink(data.body.link)
       const miniprofilelink = data.body.link
       setInterval(async () => {
-        const { data } = await axios.get(`http://localhost:5000/score?link=https://steamcommunity.com/miniprofile/${miniprofilelink}`)
-        if(data.body.error) {
-          setError(JSON.stringify(data.body.error))
+        if(miniprofilelink) {
+          const { data } = await axios.get(`http://localhost:5000/score?link=https://steamcommunity.com/miniprofile/${miniprofilelink}`)
+          if(data.body.error) {
+            setError(JSON.stringify(data.body.error))
+          }
+          else{
+            setError(null)
+            setCurrentScore(data.body.score)
+          }
         }
-        else{
-          setError(null)
-          setCurrentScore(data.body.score)
+        else {
+          setError('Error to retrieve miniprofile link')
         }
       }, 5000);
     }
