@@ -10,7 +10,7 @@ server.get('/score', getScoreController);
 
 const start = async () => {
     try {
-        await server.listen(process.env.PORT || 3001);
+        await server.listen(process.env.PORT || 3001, '0.0.0.0');
     } catch (err) {
         server.log.error(err)
         process.exit(1)
