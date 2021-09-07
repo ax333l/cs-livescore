@@ -6,7 +6,7 @@ const server = Fastify({logger: true})
 
 server.get('/miniprofile', miniprofileController)
 
-server.get('/score', getScoreController)
+server.get('/score', getScoreController);
 
 const start = async () => {
     try {
