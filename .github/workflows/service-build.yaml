@@ -1,4 +1,4 @@
-name: baklava:build_and_release
+name: service:build
 
 on:
   push:
