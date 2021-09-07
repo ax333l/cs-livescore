@@ -11,11 +11,6 @@ server.get('/score', getScoreController)
 const start = async () => {
     try {
         await server.listen(process.env.PORT || 3001)
-
-        const address = server.server.address()
-        const port = typeof address === 'string' ? address : address?.port
-        server.log.info(`Server started at the port: ${port}`)
-
     } catch (err) {
         server.log.error(err)
         process.exit(1)
