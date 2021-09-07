@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  service: 
+    build: './service'
+    ports: 
+      - 3001:3001
+  server: 
+    build: './server'
+    ports: 
+      - 5000:5000
+  client: 
+    build: './client'
+    ports: 
+      - 4000:4000
