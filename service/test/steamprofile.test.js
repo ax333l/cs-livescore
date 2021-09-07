@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-const getSteamMiniProfile = require('./src/steamprofile')
+import { getSteamMiniProfile } from '../src/steamprofile'
 
 
 describe('get mini profile', () => {
