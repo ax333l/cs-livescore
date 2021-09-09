@@ -1,9 +1,16 @@
 import {useLocation} from "react-router-dom";
 import React from 'react'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom'
+
+const style = {
+  'text-align': 'center',
+  'font-size': '20px'
+}
 
 function App() {
   const search = useLocation().search;
+  const history = useHistory()
   const link = new URLSearchParams(search).get('link');
   const [currentScore, setCurrentScore] = React.useState(["0", "0"])
   const [miniProfileLink, setMiniProfileLink] = React.useState(null)
@@ -31,16 +38,23 @@ function App() {
     }
     getLink()
   }, []);
-  if(error) {
-    return (
-      <div>{error}</div>
-    )
+  const handleSubmit = (e) => {
+    history.push('/?link=' + e.target.value)
   }
   if(!link) {
     return (
-      <div>
-        No link provided in URL query
-      </div>
+      <form onSubmit={handleSubmit} style={style}>
+        <label>
+          Вставьте ссылку:
+          <input type="text" />
+        </label>
+        <input type="submit" value="Перейти" />
+      </form>
+    );
+  }
+  if(error) {
+    return (
+      <div>{error}</div>
     )
   }
   if(!miniProfileLink) {
